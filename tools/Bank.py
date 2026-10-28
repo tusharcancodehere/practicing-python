@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Bank:
     def __init__(self, db_name="bank.db"):
         self.conn = sqlite3.connect(db_name)
@@ -45,7 +44,8 @@ class Bank:
         pass
 
     def withdraw(self, amount:float):
-        # 1. Check if the user actually has enough money in the database
+        # 1. Check
+        # if the user actually has enough money in the database
         self.cursor.execute("SELECT balance FROM accounts WHERE name = ?", (self.name,))
         result = self.cursor.fetchone()
 
