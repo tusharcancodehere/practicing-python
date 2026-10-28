@@ -44,8 +44,34 @@ class Bank:
     def deposit(self, amount):
         pass
 
-    def withdraw(self, amount):
-        pass
+    def withdraw(self, amount:float):
+        # 1. Check if the user actually has enough money in the database
+        self.cursor.execute("SELECT balance FROM accounts WHERE name = ?", (self.name,))
+        result = self.cursor.fetchone()
+
+        if result is None:
+            print("Error: Account not found in database.")
+            return
+
+        current_db_balance = result[0]
+
+        # 2. Prevent overdrafting
+        if amount > current_db_balance:
+            print(f"Transaction Denied! Insufficient funds. Your current balance is: {current_db_balance}")
+            return
+
+        # 3. Calculate new balance and update the SQLite table
+        new_balance = current_db_balance - amount
+        self.cursor.execute(
+            "UPDATE accounts SET balance = ? WHERE name = ?",
+            (new_balance, self.name)
+        )
+        self.conn.commit()
+
+        # 4. Synchronize the local object instance tracking variable
+        self.balance = new_balance
+        print(f"Successfully withdrew ${amount}. New balance is: ${self.balance}")
+
 
     def transfer(self, amount):
         pass
