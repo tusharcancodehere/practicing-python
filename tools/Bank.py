@@ -1,5 +1,12 @@
 class Bank:
-    def __init__(self):
+    def __init__(self, name,balance):
+        self.name = name
+        self.balance = balance
+    def greet(self):
+        print("==============")
+        print("Welcome to Bank")
+        print("==============")
+    def create_account(self):
         pass
     def deposit(self, amount):
         pass
@@ -10,6 +17,4 @@ class Bank:
     def withdrawal(self, amount):
         pass
     def history(self):
-        pass
-    def create_account(self):
         pass
